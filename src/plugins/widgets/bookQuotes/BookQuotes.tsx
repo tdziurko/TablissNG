@@ -7,6 +7,16 @@ import { Icon } from "../../../icons";
 import { fetchQuotes } from "./api";
 import { defaultData, Props } from "./types";
 
+// Bump when the shape of cached quotes changes, so old caches get refetched.
+// It must stay the first dep: cached deps are compared only up to the shorter length.
+const CACHE_VERSION = 2;
+
+function sizeClass(text: string) {
+  if (text.length > 400) return "is-very-long";
+  if (text.length > 220) return "is-long";
+  return "";
+}
+
 const BookQuotes: FC<Props> = ({
   cache,
   data: savedData,
@@ -23,7 +33,7 @@ const BookQuotes: FC<Props> = ({
     data,
     setData,
     loader,
-    deps: [data.url, data.shuffle],
+    deps: [CACHE_VERSION, data.url, data.shuffle],
   });
 
   if (!item) return null;
@@ -32,21 +42,31 @@ const BookQuotes: FC<Props> = ({
   const onPrev = go(-1);
   const onNext = go(1);
 
-  return (
-    <div className="BookQuotes">
-      <h4 className="BookQuotesContent">
-        “{item.text}”
-        {(item.author || book) && (
-          <sub>
-            <br />
-            &mdash; {book && <cite>{book}</cite>}
-            {item.author && book && ", "}
-            {item.author}
-          </sub>
-        )}
-      </h4>
+  const opacity = Math.min(Math.max(data.backgroundOpacity, 0), 100) / 100;
 
-      {item.tags && <p className="BookQuotesTags">{item.tags}</p>}
+  return (
+    <div
+      className="BookQuotes"
+      style={{
+        backgroundColor: `rgba(40, 40, 40, ${opacity})`,
+        // Without a visible panel the blur would still smear the background
+        backdropFilter: opacity > 0 ? undefined : "none",
+      }}
+    >
+      <div className={`BookQuotesBody ${sizeClass(item.text)}`}>
+        {item.tags && <p className="BookQuotesTags">{item.tags}</p>}
+
+        <h4 className="BookQuotesContent">
+          “{item.text}”
+          {(item.author || book) && (
+            <sub>
+              {book && <cite>{book}</cite>}
+              {item.author && book && ", "}
+              {item.author}
+            </sub>
+          )}
+        </h4>
+      </div>
 
       <div className={`controls ${data.showControls ? "" : "is-on-hover"}`}>
         <button type="button" disabled={!onPrev} onClick={onPrev ?? undefined}>

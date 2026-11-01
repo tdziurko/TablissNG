@@ -217,6 +217,28 @@ const BookQuotesSettings: FC<Props> = ({
         />{" "}
         <FormattedMessage {...backgroundMessages.showControls} />
       </label>
+
+      <label>
+        <FormattedMessage
+          id="plugins.bookQuotes.backgroundOpacity"
+          defaultMessage="Background opacity: {value}%"
+          description="Label for the slider that sets the opacity of the panel behind the quote"
+          values={{ value: settings.backgroundOpacity }}
+        />
+        <input
+          type="range"
+          min="0"
+          max="100"
+          step="5"
+          value={settings.backgroundOpacity}
+          onChange={(event) =>
+            setData({
+              ...settings,
+              backgroundOpacity: Number(event.target.value),
+            })
+          }
+        />
+      </label>
     </div>
   );
 };

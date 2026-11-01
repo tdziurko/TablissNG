@@ -1,23 +1,39 @@
 .BookQuotes
-    .BookQuotesContent
-        line-height: 1.25 !important
-        max-height: 33vh
-        overflow-y: hidden
+    // Semi-transparent panel so the quote stays readable on any background
+    // background color is set inline from the backgroundOpacity setting
+    backdrop-filter: blur(6px)
+    border-radius: 0.75rem
+    padding: 2rem 2rem 1.5rem
 
-        &:hover
-            overflow-y: auto
+    // No height limit: the panel grows with the quote, long quotes get a smaller font
+    .BookQuotesBody
+        &.is-long .BookQuotesContent
+            font-size: 0.95em
+
+        &.is-very-long .BookQuotesContent
+            font-size: 0.85em
+
+    .BookQuotesContent
+        line-height: 1.5 !important
+        margin: 0
 
     sub
         bottom: 0
+        display: block
+        font-size: 1em
+        // normalize.css sets line-height: 0 on sub, which collapses the block
+        line-height: inherit
+        margin-top: 0.75em
+        opacity: 0.7
 
     .BookQuotesTags
         font-size: 0.75em
-        margin: 0.25em 0 0
+        margin: 0 0 0.75em
         opacity: 0.7
 
     .controls
         font-size: 0.6em
-        margin-top: 0.5em
+        margin-top: 1em
         opacity: 0.8
 
         button

@@ -14,6 +14,7 @@ export type Data = {
   shuffle: boolean;
   showBook: boolean;
   showControls: boolean;
+  backgroundOpacity: number; // panel background opacity in percent, 0-100
   timeout: number; // in seconds, 0 means every new tab
 };
 
@@ -27,5 +28,6 @@ export const defaultData: Data = {
   shuffle: true,
   showBook: true,
   showControls: true,
+  backgroundOpacity: 55,
   timeout: 1800,
 };
