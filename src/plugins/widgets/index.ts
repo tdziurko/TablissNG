@@ -3,6 +3,7 @@
 import binarytime from "./binaryTime";
 import bitcoin from "./bitcoin";
 import bookmarks from "./bookmarks";
+import bookQuotes from "./bookQuotes";
 import countdown from "./countdown";
 import css from "./css";
 import currencyRates from "./currencyRates";
@@ -50,6 +51,7 @@ export const widgetConfigs = [
   notes,
   palette,
   quote,
+  bookQuotes,
   search,
   since,
   time,
